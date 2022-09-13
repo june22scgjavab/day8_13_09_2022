@@ -235,8 +235,8 @@ Poly =====> means many
 morphic=====> body structure
 
 Polymorphism in Object oriented programming can be achieved in two ways:
-  * Method overriding 
-  * Method overloading
+  * Method overriding =====> dynamic polymorphism
+  * Method overloading=====> static polymorphism
 
 Method overriding: -
 * We need to have inheritence relationship between two classes Parent and Child.
@@ -266,4 +266,343 @@ public class Main{
      }
  }
 ------------------------------------------------------------------------------------------------------------------------------------
+
+public class Parent{
+
+public void display(){
+   System.out.println("Display method");
+}
+}
+
+public class Child{
+
+public void display(){
+   System.out.println("Display method");
+}
+}
+
+[ The above scenario is not method overriding as the classes Parent and Child are not related with inheritence. ]
+-----------------------------------------------------------------------------------------------------------------------------------
+Why we should learn the concept of method overriding?
+
+Suppose we have base class with some method implementation but that implementation is not futile or applicable or suitable for the 
+sub-classes.
+
+
+
+  public class Exam{
+     private int registrationId;
+     private String testName;
+
+     public void test(){
+      System.out.println("Pen and Paper exams");
+     }
+ }
+
+
+ public class OnlineExam extends Exam {
+   private String password;
+   public void test(){
+    System.out.println("Writing online exams");
+   }
+ }
+ 
+  public class Main{
+   public static void main(String args[]){
+    OnlineExam exam=new OnlineExam();
+    exam.test(); // So the method test() in the subclass will get priority and it will override the method test in the parent class
+    // exam
+   }
+  }
+
+------------------------------------------------------------------------------------------------------------------
+As we can see the methods same so is there any way out to call the base class method?
+Ans Yes. With the help of super keyword.
+
+public class Exam{
+     private int registrationId;
+     private String testName;
+
+     public void test(){
+      System.out.println("Pen and Paper exams");
+     }
+ }
+
+
+ public class OnlineExam extends Exam {
+   public void test(){
+    //test(); // recursive method call
+    super.test(); // We are invoking the test method of the super/parent class
+    System.out.println("Writing online exams");
+     super.test(); // calling super.test() not in the first line is fine. It is mandatory in case of constructor call.
+   }
+ }
+ 
+  public class Main{
+   public static void main(String args[]){
+    OnlineExam exam=new OnlineExam();
+    exam.test(); // So the method test() in the subclass will get priority and it will override the method test in the parent class
+    // exam but after entering the test method of the subclass it will get super.test() and hence it will call the test method of
+    // the parent class and control will again come back to the test method of the child class
+   }
+  }
+
+
+// Here also is it mandatory to use super in the firs line?
+A: No. super with constructor call where we expect that calling the base class constructor with super should be the first line
+   but using super with instance variable and method , we dont require the usage of super should be in the first line.
+
+-------------------------------------------------------------------------------------------------------------
+* Method overloading is in the single class. Method overloading can happen within Parent and subclass. 
+* For method overloading , 
+  ** method names should be same.
+  ** different number of parameters.
+  ** datatype of parameters.
+  ** sequence of parameters.
+[ Return type only is not a deciding factor for method overloading]
+
+ public class Calculator{
+ 
+   public int add(int a,int b){
+    return a+b;
+   }
+ 
+ /* public void add(int a,int b){
+   System.out.println(a+b);
+  } */
+ 
+  // Both the above methods can be kept in the single class because they differ only in the return type. But we 
+  // dont consider only the return type for deciding method overloading
+ public int add(int a,int b,int c){
+    return a+b+c;
+  }
+
+  public float add(float a, float b){
+    return a+b;
+  }
+
+
+  public void add(float a, float b, float c){
+   System.out.println(a+b+c);
+  }
+
+
+ public float add(int a, float b){
+    return a+b;
+  }
+
+ public float add(float a, int b){
+    return a+b;
+  }
+
+ }
+
+
+public class Main{
+   public static void main(String args[]){
+    Calculator calc=new Calculator();
+    System.out.println(calc.add(3,4));
+    System.out.println(calc.add(3.2f,4.5f));
+    System.out.println(calc.add(1,2,3));
+    calc.add(1.2f,1,1.3f);
+
+  }
+}
+----------------------------------------------------------------
+
+
+ public class Calculator1{
+ 
+   public int add(int a,int b){
+    return a+b;
+   }
+
+  public int add(int a,int b,int c){
+    return a+b+c;
+  }
+}
+
+public class Calculator2 extends Calculator1{
+
+  public float add(float a, float b){
+    return a+b;
+  }
+
+ public float add(int a, float b){
+    return a+b;
+  }
+
+ public float add(float a, int b){
+    return a+b;
+  }
+
+ }
+
+The above is also an example of method overloading
+---------------------------------------------------------------------------------------------------------
+
+
+ public class Calculator1{
+ 
+   public int add(int a,int b){
+    return a+b;
+   }
+
+  public int add(int a,int b,int c){
+    return a+b+c;
+  }
+}
+
+public class Calculator2 {
+
+  public float add(float a, float b){
+    return a+b;
+  }
+
+ public float add(int a, float b){
+    return a+b;
+  }
+
+ public float add(float a, int b){
+    return a+b;
+  }
+
+ }
+
+[ The above example is not of method overloading as the classes dont have any parent child kind of relationship.
+--------------------------------------------------------------------------------------------------------------------------
+
+We can write multiple constructors in a class which is an example
+of overloading and specifically it is called as constructor 
+overloading. 
+
+
+public class Numbers {
+  private int a;
+  private int b;
+
+  public Numbers(){
+    a=100;
+    b=200;
+ }
+
+ public Numbers(int a,int b){
+   this.a=a;
+   this.b=b;
+  }
+}
+
+
+public class Main {
+   public static void main(String args[]){
+   Numbers number1=new Numbers();
+   Numbers number2=new Numbers(1,2);
+   //Numbers number3=new Numbers(1,2,3); 
+   // We dont have any constructor with 3 parameters. So
+   // we will get compilation error while creating the object
+   // if we write a constructor call with 3 parameters  
+}
+}
+-------------------------------------------------------------------------------------------------------------------
+private====>default=====>protected======>public
+
+So if the Parent class method is having access modifier as public then the child class method should be having access
+modifier as public only.
+if the Parent class method is having access modifier as protected then the child class method should be having access
+modifier as either protected or public.
+
+So the conclusion is the overriding method cannot have weaker(restricted) access modifier than
+the ovrridden method. 
+
+  public class Base {
+
+   public void display(){}
+
+  }
+
+ public class Derived extends Base{
+   void display(){}
+ }
+
+The above code is not valid.
+
+  public class Base {
+
+   void display(){}
+
+  }
+
+ public class Derived extends Base{
+  public void display(){}
+ }
+
+[ So the above code is fine as you decreased the restriction of the modifier. ]
+
+
+public class Base{
+  private void display(){}
+ }
+
+public class Derived extends Base{
+  public void public display(){}
+ }
+
+[ In the above case the display method in the child class is not overriding the display method in the Parent class as
+the method is private in the Parent class and we dont override a private method. ]
+
+When we override a method in the child class, it should have the same signature as that of the parent class.
+
+The method should not have a weaker access modifier.
+
+Private methods are not overridden.
+--------------------------------------------------------------------------------------------------------
+Type conversion and type casting of Reference type.
+You have learn the type casting and conversion of primitive type.
+
+
+   int num=10;
+   double d=num;   // Type conversion
+
+    double d=12.4;
+    int num=(double)d;   // Type casting
+  
+-------------------------------------------------------------------------------------------------------------------------
+public class Base {}
+public class Derived extends Base {}
+
+
+  Base base=new Derived(); // Type conversion in reference type.
+
+  Derived derived=(Derived)base;  // Type casting in reference type.
+
+So in type conversion and casting of reference type . the classes for conversion and casting should be related with Parent Child
+relationship.
+
+
+public class Base {}
+public class Derived {}
+
+  Base base=new Derived();  // So this is not possible because the class Base and Derived are not related with parent child 
+   // relationship.
+
+-----------------------------------------------------------------------------------------------------------------------------
+Primitive type should be casted or converted to primitive only.
+Similary reference type should be casted or converted to reference type only.
+So in reference type whenever we are converting from Derived to Base , it is called type conversion.
+public class Base{}
+public class Derived extends Base {}
+Base base=new Derived(); // type conversion
+
+For typecasting in reference type , we convert from Base type to the derived type.
+Derived derived=(Derived)base; // type casting in reference type.
+
+Static methods are not overridden. They will be called based on the type of reference used.
+---------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
      
