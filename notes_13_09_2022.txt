@@ -1,0 +1,269 @@
+   int num1=12;
+   int num2=3;
+   int num4=13;
+   double d=(num1+num2+num3)/3; 
+--------------------------------------------------------------------------------------------------------------------------------
+
+Getting the output according to the testcases being written. 
+
+------------------------------------------------------------------------------------------------------------------------------------
+Structural validations =====> So dont change the structure of the class in the sense . Dont change the return 
+type and the datatype of parameters.  
+-----------------------------------------------------------------------------------------------------------------------------------
+package com.infosys.inherit.revise1;
+public class Parent {
+  public int i;
+}
+
+package com.infosys.inherit.revise1;
+public class Child extends Parent{
+  public int j;
+}
+
+
+package com.infosys.inherit.revise1;
+public class Main {
+   public static void main(String args[]){
+    Parent parent=new Parent();
+    System.out.println(parent.i);  //0
+    parent.i=100;
+    System.out.println(parent.i); //100
+    Child child=new Child();
+    child.i=1000;
+    child.j=2000;
+    System.out.println(child.i);  //1000
+    System.out.println(child.j);  //2000
+   }
+ }
+---------------------------------------------------------------------------------------------------------------------------------
+
+package com.infosys.inherit.revise2;
+public class Parent {
+
+ public int i;
+
+public Parent(){  // parameterless constructor
+   i=3000;
+}
+}
+
+package com.infosys.inherit.revise2;
+public class Child extends Parent{
+  public int j;
+}
+
+
+package com.infosys.inherit.revise2;
+public class Main {
+   public static void main(String args[]){
+    Parent parent=new Parent();
+    System.out.println(parent.i);  //3000
+    parent.i=100;
+    System.out.println(parent.i); //100
+    Child child=new Child();
+    System.out.println(child.i); // 3000
+    System.out.println(child.j); //0
+    child.i=1000;
+    child.j=2000;
+    System.out.println(child.i);  //1000
+    System.out.println(child.j);  //2000
+   }
+ }
+------------------------------------------------------------------------------------------------------------------------------------  
+package com.infosys.inherit.revise3;
+public class Parent {
+
+ public int i;
+
+
+public Parent(int i){  // parameterized constructor
+   this.i=i;
+}
+}
+
+package com.infosys.inherit.revise3;
+public class Child extends Parent{
+  public int j;
+
+  public Child(){
+    j=20;
+  }
+}
+
+
+package com.infosys.inherit.revise3;
+public class Main {
+   public static void main(String args[]){
+   // Parent parent=new Parent(); // Comilation error as we dont have the paremeterless constructor so create a parameterless 
+    // constructor in Parent
+    Child child=new Child(); // compilation error as the parameterless constructor of the child class is looking for parameterless
+   // constructor in the parent class. So to get rid of error , create a paremeterless constructor in the Parent class
+   
+   }
+ } 
+---------------------------------------------------------------------------------------------------------------------- 
+package com.infosys.inherit.revise4;
+public class Parent {
+
+ public int i;
+
+
+public Parent(int i){  // parameterized constructor
+   this.i=i;
+}
+}
+
+package com.infosys.inherit.revise4;
+public class Child extends Parent{
+  public int j;
+
+  public Child(){
+   super(100);
+    j=20;
+  }
+}
+
+
+package com.infosys.inherit.revise4;
+public class Main {
+   public static void main(String args[]){
+    Child child=new Child(); // no error
+   
+   }
+ }     
+------------------------------------------------------------------------------------------------------------------------------    
+
+package com.infosys.inherit.revise5;
+public class Parent {
+
+ public int i;
+
+public Parent(){
+i=20;
+System.out.println("I am the parameterless constructor of Parent");
+}
+public Parent(int i){  // parameterized constructor
+   this.i=i;
+System.out.println("I am the parameterized constructor of Parent");
+
+}
+}
+
+package com.infosys.inherit.revise5;
+public class Child extends Parent{
+  public int j;
+
+  public Child(){
+   super(100); // This should be the first line.
+    j=20;
+   System.out.println("I am the parameterless constructor of Child");
+  }
+
+  public Child(int j){
+    System.out.println("I am the parameterized constructor of Child");
+    this.j=j;
+  }
+}
+
+
+package com.infosys.inherit.revise5;
+public class Main {
+   public static void main(String args[]){
+    Child child=new Child();   
+      // I am the parameterized constructor of Parent   
+     //I am the parameterless constructor of Child
+       // Will this call any constructor of parent class?
+       // Yes the parameterised of parent;
+    Child child2=new Child(5000);   // So will it call any constructor of Parent?
+    // It will show I am parametrless constructor of parent  as it call the parent class parameterless constructor.
+    //I am the parameterized constructor of Child is shown after that.
+   }
+ }   
+
+--------------------------------------------------------------------------------------------------------------------------------------
+So the default constructor of child calls the default constructor of parent by default.
+The default constructor of child can call the parameterised constructor of Parent if called explicitly with super.
+The parameterized constructor of child , by default calls the parameterless constructor of the Parent.
+The parameterized constructor of child, can call parameterized constructor of parent with the explicit usage of super.
+Calling the parent class constructor with super should be the first line otherwise it will show compilation error.
+-----------------------------------------------------------------------------------------------------------------------------------
+public class Base {
+   protected int i=10;
+}
+
+public class Derived extends Base{
+   private int i=100;
+
+ public void display(){
+   System.out.println(i); // It will access the i of the sublcass, to mention or differentiate the variables which are 
+  // with the same name we can make use of super keyword. This will print 100.
+  System.out.println(super.i);   // This will print 10. super is a keyword used to 
+  // represent the immediate parent class.
+  }
+}
+---------------------------------------------------------------------------------------------------------------------------------
+class A {
+protected int i=10;
+}
+
+
+class B extends A {
+protected int i=100;
+public void display(){
+ System.out.println(super.i); //10
+}
+}
+
+class C extends B{
+private int i=1000;
+
+public void display(){
+ System.out.println(super.i);  //100
+ System.out.println(super.super.i)// compilation error 
+}
+
+}
+
+super always is used to represent the immediate parent class.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+Method calls in Inheritence:--
+
+In Object Oriented Programming we talk aboult polymorphism.
+
+Poly =====> means many
+morphic=====> body structure
+
+Polymorphism in Object oriented programming can be achieved in two ways:
+  * Method overriding 
+  * Method overloading
+
+Method overriding: -
+* We need to have inheritence relationship between two classes Parent and Child.
+* Method overriding cannot happen in a single class. 
+* We will be having the method/methods in both parent and Child class with same name , same return type, same number of parameters
+  and same datatype of the parameters.
+
+ public class Calculator {
+
+   public int calculate(int a,int b){   // The method in the parent class is overridden
+    return a+b;
+   }
+}
+
+ public class Calculator2 extends Calculator{
+
+   public int calculate(int a,int b){  // This method in the sub-class is overriding a method in 
+                          // the parent class
+     return  a*b;
+   }
+}
+
+public class Main{
+    public static void main(String[] args){
+      Calculator2 calc=new Calculator2();
+      System.out.println(calc.calculate(2,3)); //6
+     }
+ }
+------------------------------------------------------------------------------------------------------------------------------------
+     
