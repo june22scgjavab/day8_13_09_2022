@@ -598,10 +598,22 @@ Derived derived=(Derived)base; // type casting in reference type.
 
 Static methods are not overridden. They will be called based on the type of reference used.
 ---------------------------------------------------------------------------------------------------------------------
+primitive         Wrapper Classes
+char              Character
+byte              Byte
+short             Short
+int               Integer
+float             Float
+double            Double
+boolean           Boolean
 
+String is not a wrapper class. 
+---------------------------------------------------------------------------------------------------------------------------------
 
+Wrapper classes cannot be type casted;
 
-
+   Integer intObj=new Integer(10);
+   Long l=(Integer)intObj; // This will give compilation error
 
 
 
